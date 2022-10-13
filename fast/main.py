@@ -24,7 +24,7 @@ import jwt
 from fastapi import FastAPI, Depends, HTTPException, status
 from passlib.hash import bcrypt
 
-# you have to put date at push
+# you have to put date at pus
 
 app = FastAPI()
 
