@@ -1,0 +1,934 @@
+{
+	"info": {
+		"_postman_id": "5ff735c2-5266-437f-b71b-3a50a0c5e8f4",
+		"name": "project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create-category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/create-category",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"create-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-category-by-id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/category/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-category-by-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://10.1.50.13:8000/category/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-all-category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://10.1.50.13:8000/category",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-category-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://10.1.50.13:8000/category/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "create-item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/create-item/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"create-item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-item-by-id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-item-by-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-item-by-id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-all-item",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "feedback",
+			"item": [
+				{
+					"name": "create-item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "r_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "u_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "rating",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/create-feedback/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"create-feedback",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-feedback-by-id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/create-user/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"create-user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-feedback-by-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-feedback-by-id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-all-feedback",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cat_id",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ingredients",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "instruction",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/item/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/login",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/create-user/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"create-user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-user-by-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/user/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-all-user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/user/",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read-user-by-id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://10.1.50.13:8000/user/1",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"50",
+								"13"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
