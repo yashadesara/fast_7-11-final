@@ -24,7 +24,6 @@ import jwt
 from fastapi import FastAPI, Depends, HTTPException, status
 from passlib.hash import bcrypt
 
-# hello
 
 app = FastAPI()
 
