@@ -322,8 +322,9 @@ def add_item(
     User=Depends(get_current_user)
 ):
 
+    
     if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
-            i = image.filename[-10:]
+        it = image.filename[-10:]
 
     else:
         raise HTTPException(
@@ -331,16 +332,16 @@ def add_item(
         )
 
     if title:
-            if db.query(c).filter(c.title == title, c.id!=id).first():
-                raise HTTPException(
-                    status_code=422, detail="item is already exists"
-                )
+        if db.query(i).filter(i.title == title).first():
+            raise HTTPException(
+                status_code=422, detail="item is already exists"
+            )
 
     # try:
     item = i(
         cat_id=cat_id,
         title=title,
-        image=i,
+        image=it,
         description=description,
         ingredients=ingredients,
         instruction=instruction,
@@ -350,7 +351,7 @@ def add_item(
     db.commit()
     db.refresh(item)
 
-    with open(f"static/{i}", "wb") as f:
+    with open(f"static/{it}", "wb") as f:
         shutil.copyfileobj(image.file, f)
 
     return {"created with id": item.id}
@@ -403,6 +404,11 @@ def update_item_by_id(
     # try:
 
     if title:
+        if db.query(i).filter(i.title == title, i.id!=id).first():
+            raise HTTPException(
+                status_code=422, detail="category is already exists"
+            )
+    
         it.title = title
 
     if cat_id:
@@ -410,7 +416,7 @@ def update_item_by_id(
 
     if image:
         if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
-            i = image.filename[-10:]
+            im = image.filename[-10:]
 
         else:
             raise HTTPException(
@@ -418,8 +424,8 @@ def update_item_by_id(
             )
 
         # im = image.filename[-10:]
-        it.image = i
-        with open(f"static/{i}", "wb") as f:
+        it.image = im
+        with open(f"static/{im}", "wb") as f:
             shutil.copyfileobj(image.file, f)
 
     if description:
