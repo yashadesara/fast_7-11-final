@@ -406,7 +406,7 @@ def update_item_by_id(
     if title:
         if db.query(i).filter(i.title == title, i.id!=id).first():
             raise HTTPException(
-                status_code=422, detail="category is already exists"
+                status_code=422, detail="item is already exists"
             )
     
         it.title = title
