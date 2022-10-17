@@ -189,7 +189,7 @@ async def generate_token(
             status_code=404, detail="Invalid username or password / not Authenticated"
         )
     token = jwt.encode({"username": request.username}, JWT_SECRET, algorithm="HS256")
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "bearer",'user_type': user.user_type}
 
 
 # CRUD of category with all Relations
@@ -350,7 +350,7 @@ def add_item(
     db.add(item)
     db.commit()
     db.refresh(item)
-    
+
 
     with open(f"static/{it}", "wb") as f:
         shutil.copyfileobj(image.file, f)
@@ -544,6 +544,12 @@ def add_feedback(
         description=description,
         rating=rating,
     )
+
+    if db.query(f).filter(f.r_id == r_id, f.u_id == u_id).first():
+        raise HTTPException(
+                status_code=422, detail="Feddback has already been submmited"
+            )
+
     try: 
         db.add(feedback)
         db.commit()
