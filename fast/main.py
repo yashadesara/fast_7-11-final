@@ -350,6 +350,7 @@ def add_item(
     db.add(item)
     db.commit()
     db.refresh(item)
+    
 
     with open(f"static/{it}", "wb") as f:
         shutil.copyfileobj(image.file, f)
