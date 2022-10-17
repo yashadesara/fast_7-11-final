@@ -354,7 +354,7 @@ def add_item(
     with open(f"static/{it}", "wb") as f:
         shutil.copyfileobj(image.file, f)
 
-    # return {"created with id": item.id}
+    # return {"created with id": item.id}``
     return "item created"
 
     # except Exception as e:
