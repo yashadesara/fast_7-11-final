@@ -1,4 +1,5 @@
 import shutil
+from unittest import skip
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.encoders import jsonable_encoder
 from fastapi import FastAPI, Depends, UploadFile, File, Form
@@ -247,13 +248,17 @@ def read_category_by_id(id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/category/", response_model=List[category], status_code=status.HTTP_200_OK)
-def read_all_category(db: Session = Depends(get_db)):
-    cat = db.query(c).all()
-    return cat
+def read_all_category(limit: bool=False, db: Session = Depends(get_db)):
+    if limit:
+        cat = db.query(c).limit(5).all()
+        return cat
+    else:
+        cat = db.query(c).all()
+        return cat
 
 
 @app.get("/all-category/", response_model=List[categoryForAdd], status_code=status.HTTP_200_OK)
-def read_all_category_for_add(db: Session = Depends(get_db)):
+def read_all_category_for_add( db: Session = Depends(get_db)):
     cat = db.query(c).all()
     return cat
 
@@ -381,9 +386,13 @@ def read_item_by_id(id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/item/", response_model=List[item], status_code=status.HTTP_200_OK)
-def read_all_item(db: Session = Depends(get_db)):
-    item = db.query(i).all()
-    return item
+def read_all_item(limit: bool=False,db: Session = Depends(get_db)):
+    if limit:
+        item = db.query(i).limit(3).all()
+        return item
+    else:
+        item = db.query(i).all()
+        return item
 
 
 @app.put("/item/{id}", status_code=status.HTTP_200_OK)
