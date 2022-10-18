@@ -191,7 +191,7 @@ async def generate_token(
             status_code=404, detail="Invalid username or password / not Authenticated"
         )
     token = jwt.encode({"username": request.username}, JWT_SECRET, algorithm="HS256")
-    return {"access_token": token, "token_type": "bearer",'user_type': user.user_type}
+    return {"access_token": token, "token_type": "bearer",'user_id': user.id,'username': user.username,'user_email': user.email,'user_type': user.user_type,}
 
 
 # CRUD of category with all Relations
