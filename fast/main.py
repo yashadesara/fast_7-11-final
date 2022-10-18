@@ -110,6 +110,7 @@ class item(BaseModel):
     ingredients: Union[str, None] = None
     instruction: Union[str, None] = None
     feed: List[feedback] = []
+    
 
     class Config:
         orm_mode = True
@@ -249,12 +250,8 @@ def read_category_by_id(id: int, db: Session = Depends(get_db)):
 
 @app.get("/category/", response_model=List[category], status_code=status.HTTP_200_OK)
 def read_all_category(limit: bool=False, db: Session = Depends(get_db)):
-    if limit:
-        cat = db.query(c).limit(5).all()
-        return cat
-    else:
-        cat = db.query(c).all()
-        return cat
+    cat = db.query(c).all()
+    return cat
 
 
 @app.get("/all-category/", response_model=List[categoryForAdd], status_code=status.HTTP_200_OK)
@@ -377,12 +374,25 @@ def delete_item_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
     return {"success": True}
 
 
-@app.get("/item/{id}", status_code=status.HTTP_200_OK)
-def read_item_by_id(id: int, db: Session = Depends(get_db)):
-    item = db.query(i).get(id)
-    if not item:
-        return {"error": "There is an error"}
+@app.get("/item/{id}",response_model=item,status_code=status.HTTP_200_OK)
+def read_item_by_id(id: int,db: Session = Depends(get_db)):
+    # it = db.query(i).get(id)
+    item = db.query(i).filter(i.id == id).first()
+    # if not it:
+    #     return {"error": "There is an error"}
+
+    # feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==user_id).first()
+    # reviewable = False
+    # if not feedback_chk:
+    #     reviewable = True
+
+    # # new_dict = {"it":it, "new key": reviewable}
+    # item_dict = it.__dict__
+    # print(item_dict['description'])
     return item
+    # return a["title"]
+
+
 
 
 @app.get("/item/", response_model=List[item], status_code=status.HTTP_200_OK)
@@ -393,6 +403,9 @@ def read_all_item(limit: bool=False,db: Session = Depends(get_db)):
     else:
         item = db.query(i).all()
         return item
+
+
+
 
 
 @app.put("/item/{id}", status_code=status.HTTP_200_OK)
