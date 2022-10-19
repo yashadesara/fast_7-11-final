@@ -374,25 +374,44 @@ def delete_item_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
     return {"success": True}
 
 
-@app.get("/item/{id}",response_model=item,status_code=status.HTTP_200_OK)
-def read_item_by_id(id: int,db: Session = Depends(get_db)):
+# @app.get("/item/{id}",response_model=item,status_code=status.HTTP_200_OK)
+# def read_item_by_id(id: int,db: Session = Depends(get_db)):
+#     # it = db.query(i).get(id)
+#     item = db.query(i).filter(i.id == id).first()
+#     # if not it:
+#     #     return {"error": "There is an error"}
+
+#     # feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==user_id).first()
+#     # reviewable = False
+#     # if not feedback_chk:
+#     #     reviewable = True
+
+#     # # new_dict = {"it":it, "new key": reviewable}
+#     # item_dict = it.__dict__
+#     # print(item_dict['description'])
+#     return item
+#     # return a["title"]
+
+
+
+@app.get("/item/{id}",status_code=status.HTTP_200_OK)
+def read_item_by_id(id: int,u_id: int=0,db: Session = Depends(get_db)):
     # it = db.query(i).get(id)
-    item = db.query(i).filter(i.id == id).first()
-    # if not it:
-    #     return {"error": "There is an error"}
+    it = db.query(i).filter(i.id == id).first()
+    if not it:
+        return {"error": "There is an error"}
 
-    # feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==user_id).first()
-    # reviewable = False
-    # if not feedback_chk:
-    #     reviewable = True
+    feedback_get = db.query(f).filter(f.r_id==id).all()
 
-    # # new_dict = {"it":it, "new key": reviewable}
-    # item_dict = it.__dict__
-    # print(item_dict['description'])
-    return item
-    # return a["title"]
+    feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==u_id).first()
 
+    if not feedback_chk:
+        new_dict = {"item_data":it,"feedbacks":feedback_get,"can_rev":True}
+        return new_dict
 
+    new_dict = {"item_data":it,"feedbacks":feedback_get,"can_rev":False}
+    return new_dict
+    
 
 
 @app.get("/item/", response_model=List[item], status_code=status.HTTP_200_OK)
