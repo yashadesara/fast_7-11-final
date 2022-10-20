@@ -168,30 +168,22 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 
-@app.post("/login",status_code=status.HTTP_202_ACCEPTED)
+@app.post("/login", status_code=status.HTTP_202_ACCEPTED)
 async def generate_token(
     request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
-
     user = db.query(u).filter(u.email == request.username).first()
-    if not user:
-        raise HTTPException(
-            status_code=404, detail="Invalid username or password / not Authenticated"
-        )
-    item_dict = user.__dict__
-    # return item_dict["password"]
-    user = (
-        db.query(u)
-        .filter(bcrypt.verify(request.password, item_dict["password"]))
-        .first()
-    )
 
-    if not user:
-        raise HTTPException(
-            status_code=404, detail="Invalid username or password / not Authenticated"
-        )
-    token = jwt.encode({"username": request.username}, JWT_SECRET, algorithm="HS256")
-    return {"access_token": token, "token_type": "bearer",'user_id': user.id,'username': user.username,'user_email': user.email,'user_type': user.user_type,}
+    if user:
+        item_dict = user.__dict__
+        if bcrypt.verify(request.password, item_dict["password"]):
+            token = jwt.encode({"username": request.username},
+                               JWT_SECRET, algorithm="HS256")
+            return {"access_token": token, "token_type": "bearer", 'user_id': user.id, 'username': user.username, 'user_email': user.email, 'user_type': user.user_type}
+
+    raise HTTPException(
+        status_code=404, detail="Invalid username or password / not Authenticated"
+    )
 
 
 # CRUD of category with all Relations
