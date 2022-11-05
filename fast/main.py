@@ -214,7 +214,6 @@ async def generate_token(
 
 
 
-
 # CRUD of category with all Relations
 
 
