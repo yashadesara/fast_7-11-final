@@ -194,7 +194,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 #     return {"access_token": token, "token_type": "bearer",'user_id': user.id,'username': user.username,'user_email': user.email,'user_type': user.user_type,}
 
 
-
+#hello world
 @app.post("/login", status_code=status.HTTP_202_ACCEPTED)
 async def generate_token(
     request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
