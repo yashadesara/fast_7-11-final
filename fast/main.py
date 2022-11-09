@@ -51,6 +51,7 @@ def get_db():
 
 
 class userForFeed(BaseModel):
+    username: str
     email: str
 
     class Config:
