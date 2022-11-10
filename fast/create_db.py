@@ -12,8 +12,8 @@ app = FastAPI()
 class category(Base):
     __tablename__ = "category"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(16), unique=True, index=True)
-    image = Column(String(16), index=True)
+    name = Column(String(50), unique=True, index=True)
+    image = Column(String(250), index=True)
 
     items = relationship("item", back_populates="cat",passive_deletes=True) #category has relation with item
 
@@ -22,11 +22,11 @@ class category(Base):
 class item(Base):
     __tablename__ = "item"
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(16), unique=True, index=True)
-    description = Column(String(66), index=True)
+    title = Column(String(50), unique=True, index=True)
+    description = Column(String(250), index=True)
     image = Column(String(250), index=True)
-    ingredients = Column(String(66), index=True)
-    instruction = Column(String(66), index=True)
+    ingredients = Column(String(550), index=True)
+    instruction = Column(String(250), index=True)
     cat_id = Column(Integer, ForeignKey("category.id",ondelete='CASCADE'))
 
     cat = relationship("category", back_populates="items") #item has relation with category
