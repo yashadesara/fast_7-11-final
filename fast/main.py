@@ -88,6 +88,14 @@ class categoryForAdd(BaseModel):
         orm_mode = True
 
 
+class feed_user_name(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True
+
+
 class feedback(BaseModel):
     id: Optional[int]
     r_id: Union[int, None] = None
@@ -417,20 +425,26 @@ def delete_item_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
 
 @app.get("/item/{id}",status_code=status.HTTP_200_OK)
 def read_item_by_id(id: int,u_id: int=0,db: Session = Depends(get_db)):
-    # it = db.query(i).get(id)
     it = db.query(i).filter(i.id == id).first()
     if not it:
         return {"error": "There is an error"}
 
     feedback_get = db.query(f).filter(f.r_id==id).all()
+    feedlist=[]
+    for data in feedback_get:
 
+        feedback_user = db.query(u).filter(u.id==data.u_id).first()
+        a = data.__dict__
+        a['username'] = feedback_user.username
+        feedlist.append(a)
+   
     feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==u_id).first()
 
     if not feedback_chk:
-        new_dict = {"item_data":it,"feedbacks":feedback_get,"can_rev":True}
+        new_dict = {"item_data":it,"feedbacks":feedlist,"can_rev":True}
         return new_dict
 
-    new_dict = {"item_data":it,"feedbacks":feedback_get,"can_rev":False}
+    new_dict = {"item_data":it,"feedbacks":feedlist,"can_rev":False}
     return new_dict
     
 

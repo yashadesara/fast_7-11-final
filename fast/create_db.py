@@ -23,10 +23,10 @@ class item(Base):
     __tablename__ = "item"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(50), unique=True, index=True)
-    description = Column(String(250), index=True)
+    description = Column(String(1000), index=True)
     image = Column(String(250), index=True)
-    ingredients = Column(String(550), index=True)
-    instruction = Column(String(250), index=True)
+    ingredients = Column(String(5000), index=True)
+    instruction = Column(String(5000), index=True)
     cat_id = Column(Integer, ForeignKey("category.id",ondelete='CASCADE'))
 
     cat = relationship("category", back_populates="items") #item has relation with category
