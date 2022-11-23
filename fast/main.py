@@ -119,7 +119,6 @@ class item(BaseModel):
     ingredients: Union[str, None] = None
     instruction: Union[str, None] = None
     feed: List[feedback] = []
-    
 
     class Config:
         orm_mode = True
@@ -154,7 +153,8 @@ async def custom_form_validation_error(request, exc):
     for pydantic_error in exc.errors():
         loc, msg = pydantic_error["loc"], pydantic_error["msg"]
         filtered_loc = loc[1:] if loc[0] in ("body", "query", "path") else loc
-        field_string = ".".join(filtered_loc)  # nested fields with dot-notation
+        # nested fields with dot-notation
+        field_string = ".".join(filtered_loc)
         reformatted_message[field_string].append(msg)
 
     return JSONResponse(
@@ -173,8 +173,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
             detail="Invalid username or password",
         )
     return payload
-
-
 
 
 # @app.post("/login",status_code=status.HTTP_202_ACCEPTED)
@@ -203,7 +201,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 #     return {"access_token": token, "token_type": "bearer",'user_id': user.id,'username': user.username,'user_email': user.email,'user_type': user.user_type,}
 
 
-#hello world
+# hello world
 @app.post("/login", status_code=status.HTTP_202_ACCEPTED)
 async def generate_token(
     request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
@@ -222,7 +220,6 @@ async def generate_token(
     )
 
 
-
 # CRUD of category with all Relations
 
 
@@ -231,20 +228,19 @@ def add_category(
     name: str = Form(...), image: UploadFile = File(...), db: Session = Depends(get_db), User=Depends(get_current_user)
 ):
 
-    if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
-            i = image.filename[-10:]
+    if (image.content_type == "image/jpg") or (image.content_type == "image/jpeg") or (image.content_type == "image/png"):
+        i = image.filename[-10:]
 
     else:
         raise HTTPException(
             status_code=422, detail="image has not a valid type"
         )
 
-
     if db.query(c).filter(c.name == name).first():
         raise HTTPException(
             status_code=422, detail="category is already exists"
         )
-    
+
     # i = image.filename[-10:]
     cat = c(name=name, image=i)
     db.add(cat)
@@ -255,7 +251,7 @@ def add_category(
         shutil.copyfileobj(image.file, f)
 
     return {"created with id": cat.id}
-    
+
 
 @app.delete("/category/{id}", status_code=status.HTTP_200_OK)
 def delete_category_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_current_user)):
@@ -278,13 +274,13 @@ def read_category_by_id(id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/category/", response_model=List[category], status_code=status.HTTP_200_OK)
-def read_all_category(limit: bool=False, db: Session = Depends(get_db)):
+def read_all_category(limit: bool = False, db: Session = Depends(get_db)):
     cat = db.query(c).all()
     return cat
 
 
 @app.get("/all-category/", response_model=List[categoryForAdd], status_code=status.HTTP_200_OK)
-def read_all_category_for_add( db: Session = Depends(get_db)):
+def read_all_category_for_add(db: Session = Depends(get_db)):
     cat = db.query(c).all()
     return cat
 
@@ -308,15 +304,15 @@ def update_category_by_id(
         raise HTTPException(status_code=404, detail="not found")
 
     if name:
-        if db.query(c).filter(c.name == name, c.id!=id).first():
+        if db.query(c).filter(c.name == name, c.id != id).first():
             raise HTTPException(
                 status_code=422, detail="category is already exists"
             )
-    
+
         cat.name = name
 
     if image:
-        if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
+        if (image.content_type == "image/jpg") or (image.content_type == "image/jpeg") or (image.content_type == "image/png"):
             i = image.filename[-10:]
 
         else:
@@ -329,7 +325,7 @@ def update_category_by_id(
 
         with open(f"static/{i}", "wb") as f:
             shutil.copyfileobj(image.file, f)
-      
+
     db.commit()
 
     return {"update": "Success"}
@@ -353,8 +349,7 @@ def add_item(
     User=Depends(get_current_user)
 ):
 
-    
-    if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
+    if (image.content_type == "image/jpg") or (image.content_type == "image/jpeg") or (image.content_type == "image/png"):
         it = image.filename[-10:]
 
     else:
@@ -381,7 +376,6 @@ def add_item(
     db.add(item)
     db.commit()
     db.refresh(item)
-
 
     with open(f"static/{it}", "wb") as f:
         shutil.copyfileobj(image.file, f)
@@ -422,44 +416,39 @@ def delete_item_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
 #     # return a["title"]
 
 
-
-@app.get("/item/{id}",status_code=status.HTTP_200_OK)
-def read_item_by_id(id: int,u_id: int=0,db: Session = Depends(get_db)):
+@app.get("/item/{id}", status_code=status.HTTP_200_OK)
+def read_item_by_id(id: int, u_id: int = 0, db: Session = Depends(get_db)):
     it = db.query(i).filter(i.id == id).first()
     if not it:
         return {"error": "There is an error"}
 
-    feedback_get = db.query(f).filter(f.r_id==id).all()
-    feedlist=[]
+    feedback_get = db.query(f).filter(f.r_id == id).all()
+    feedlist = []
     for data in feedback_get:
 
-        feedback_user = db.query(u).filter(u.id==data.u_id).first()
+        feedback_user = db.query(u).filter(u.id == data.u_id).first()
         a = data.__dict__
         a['username'] = feedback_user.username
         feedlist.append(a)
-   
-    feedback_chk = db.query(f).filter(f.r_id==id, f.u_id==u_id).first()
+
+    feedback_chk = db.query(f).filter(f.r_id == id, f.u_id == u_id).first()
 
     if not feedback_chk:
-        new_dict = {"item_data":it,"feedbacks":feedlist,"can_rev":True}
+        new_dict = {"item_data": it, "feedbacks": feedlist, "can_rev": True}
         return new_dict
 
-    new_dict = {"item_data":it,"feedbacks":feedlist,"can_rev":False}
+    new_dict = {"item_data": it, "feedbacks": feedlist, "can_rev": False}
     return new_dict
-    
 
 
 @app.get("/item/", response_model=List[item], status_code=status.HTTP_200_OK)
-def read_all_item(limit: bool=False,db: Session = Depends(get_db)):
+def read_all_item(limit: bool = False, db: Session = Depends(get_db)):
     if limit:
         item = db.query(i).limit(3).all()
         return item
     else:
         item = db.query(i).all()
         return item
-
-
-
 
 
 @app.put("/item/{id}", status_code=status.HTTP_200_OK)
@@ -482,18 +471,18 @@ def update_item_by_id(
     # try:
 
     if title:
-        if db.query(i).filter(i.title == title, i.id!=id).first():
+        if db.query(i).filter(i.title == title, i.id != id).first():
             raise HTTPException(
                 status_code=422, detail="item is already exists"
             )
-    
+
         it.title = title
 
     if cat_id:
         it.cat_id = cat_id
 
     if image:
-        if (image.content_type ==  "image/jpg") or (image.content_type ==  "image/jpeg") or (image.content_type == "image/png"):
+        if (image.content_type == "image/jpg") or (image.content_type == "image/jpeg") or (image.content_type == "image/png"):
             im = image.filename[-10:]
 
         else:
@@ -623,10 +612,10 @@ def add_feedback(
 
     if db.query(f).filter(f.r_id == r_id, f.u_id == u_id).first():
         raise HTTPException(
-                status_code=422, detail="Feddback has already been submmited"
-            )
+            status_code=422, detail="Feddback has already been submmited"
+        )
 
-    try: 
+    try:
         db.add(feedback)
         db.commit()
         db.refresh(feedback)
@@ -637,7 +626,7 @@ def add_feedback(
 
 
 @app.delete("/feedback/{id}", status_code=status.HTTP_200_OK)
-def delete_feedback_by_id(id: int, db: Session = Depends(get_db),User=Depends(get_current_user)):
+def delete_feedback_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_current_user)):
 
     feedback = db.query(f).filter(f.id == id)
 
@@ -650,7 +639,6 @@ def delete_feedback_by_id(id: int, db: Session = Depends(get_db),User=Depends(ge
     feedback.delete(synchronize_session=False)
     db.commit()
     return {"success": True}
-
 
 
 @app.get("/feedback/{id}", status_code=status.HTTP_200_OK)
@@ -673,14 +661,14 @@ def read_all_feedback(db: Session = Depends(get_db)):
 
 @app.put("/feedback/{id}", status_code=status.HTTP_200_OK)
 def update_feedback_by_id(
-    id: int, 
+    id: int,
     r_id: int = Form(...),
     u_id: int = Form(...),
     description: str = Form(...),
-    rating: str = Form(...), 
+    rating: str = Form(...),
     db: Session = Depends(get_db),
     User=Depends(get_current_user)
-    ):
+):
     feed = db.query(f).get(id)
 
     if not feed:
@@ -700,3 +688,12 @@ def update_feedback_by_id(
 
     except Exception as e:
         raise HTTPException(status_code=400, detail="something went wrong")
+
+
+@app.get("/get-count-all/", status_code=status.HTTP_200_OK)
+def get_count_all(db: Session = Depends(get_db)):
+    category = db.query(c).all()
+    item = db.query(i).all()
+    user = db.query(u).all()
+    feedback = db.query(f).all()
+    return {"Total category":len(category), "Total item": len(item), "Total users": len(user), "Total feedbacks": len(feedback)}
