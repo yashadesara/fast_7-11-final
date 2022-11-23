@@ -213,7 +213,7 @@ async def generate_token(
         if bcrypt.verify(request.password, item_dict["password"]):
             token = jwt.encode({"username": request.username},
                                JWT_SECRET, algorithm="HS256")
-            return {"login":"Logged In Successfully","access_token": token, "token_type": "bearer", 'user_id': user.id, 'username': user.username, 'user_email': user.email, 'user_type': user.user_type}
+            return {"msg":"Logged In Successfully","access_token": token, "token_type": "bearer", 'user_id': user.id, 'username': user.username, 'user_email': user.email, 'user_type': user.user_type}
 
     raise HTTPException(
         status_code=404, detail="Invalid username or password / not Authenticated"
