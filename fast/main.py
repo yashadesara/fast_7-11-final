@@ -213,7 +213,7 @@ async def generate_token(
         if bcrypt.verify(request.password, item_dict["password"]):
             token = jwt.encode({"username": request.username},
                                JWT_SECRET, algorithm="HS256")
-            return {"access_token": token, "token_type": "bearer", 'user_id': user.id, 'username': user.username, 'user_email': user.email, 'user_type': user.user_type}
+            return {"login":"Logged In Successfully","access_token": token, "token_type": "bearer", 'user_id': user.id, 'username': user.username, 'user_email': user.email, 'user_type': user.user_type}
 
     raise HTTPException(
         status_code=404, detail="Invalid username or password / not Authenticated"
@@ -250,7 +250,7 @@ def add_category(
     with open(f"static/{i}", "wb") as f:
         shutil.copyfileobj(image.file, f)
 
-    return {"created with id": cat.id}
+    return {"msg": "Category Created Successfully"}
 
 
 @app.delete("/category/{id}", status_code=status.HTTP_200_OK)
@@ -261,7 +261,7 @@ def delete_category_by_id(id: int, db: Session = Depends(get_db), User=Depends(g
         raise HTTPException(status_code=404, detail="not found")
     cat.delete(synchronize_session=False)
     db.commit()
-    return {"success": True}
+    return {"msg": "Category Deleted Successfully"}
 
 
 @app.get("/category/{id}", status_code=status.HTTP_200_OK)
@@ -328,7 +328,7 @@ def update_category_by_id(
 
     db.commit()
 
-    return {"update": "Success"}
+    return {"msg": "Category Updated Successfully"}
 
     # except Exception as e:
     #     raise HTTPException(status_code=400, detail="something went wrong")
@@ -381,7 +381,7 @@ def add_item(
         shutil.copyfileobj(image.file, f)
 
     # return {"created with id": item.id}``
-    return "item created"
+    return {"msg": "Item Created Successfully"}
 
     # except Exception as e:
     #     raise HTTPException(status_code=400, detail="something went wrong")
@@ -394,7 +394,7 @@ def delete_item_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
         return {"error": "not deleted"}
     item.delete(synchronize_session=False)
     db.commit()
-    return {"success": True}
+    return {"msg": "Item Deleted Successfully"}
 
 
 # @app.get("/item/{id}",response_model=item,status_code=status.HTTP_200_OK)
@@ -505,7 +505,7 @@ def update_item_by_id(
         it.instruction = instruction
 
     db.commit()
-    return {"update": true}
+    return {"msg": "Item Updated Successfully"}
 
     # except Exception as e:
     #     raise HTTPException(status_code=400, detail="something went wrong")
@@ -522,7 +522,13 @@ def add_user(
     user_type: Optional[str] = "user",
     db: Session = Depends(get_db)
 ):
-    try:
+    # try:
+
+        if db.query(u).filter(u.email == email).first():
+            raise HTTPException(
+                status_code=422, detail="email is already exists"
+            )
+
         user = u(
             username=username,
             email=email,
@@ -533,10 +539,13 @@ def add_user(
         db.add(user)
         db.commit()
         db.refresh(user)
-        return user
+        
+        user_dict = user.__dict__
+        user_dict["msg"]="You have been Registered"
+        return user_dict
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail="something went wrong")
+    # except Exception as e:
+    #     raise HTTPException(status_code=400, detail="something went wrong")
 
 
 @app.delete("/user/{id}", status_code=status.HTTP_200_OK)
@@ -546,12 +555,11 @@ def delete_user_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_c
         raise HTTPException(status_code=404, detail="not found")
     user.delete(synchronize_session=False)
     db.commit()
-    return {"success": True}
+    return {"msg": "You have been Deleted Successfully"}
 
 
 @app.get("/user/{id}", status_code=status.HTTP_200_OK)
 def read_user_by_id(id: int, db: Session = Depends(get_db)):
-
     user = db.query(u).get(id)
     if not user:
         return {"error": "not found"}
@@ -585,7 +593,7 @@ def update_user_by_id(
         us.password = bcrypt.hash(password)
 
         db.commit()
-        return {"success": "updated"}
+        return {"msg": "You have been Updated Successfully"}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail="something went wrong")
@@ -619,7 +627,7 @@ def add_feedback(
         db.add(feedback)
         db.commit()
         db.refresh(feedback)
-        return {"created with id": feedback.id}
+        return {"msg":"Feedback Created Successfully"}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail="something went wrong")
@@ -638,13 +646,12 @@ def delete_feedback_by_id(id: int, db: Session = Depends(get_db), User=Depends(g
 
     feedback.delete(synchronize_session=False)
     db.commit()
-    return {"success": True}
+    return {"msg":"Feedback Deleted Successfully"}
 
 
 @app.get("/feedback/{id}", status_code=status.HTTP_200_OK)
 def read_feedback_by_id(id: int, db: Session = Depends(get_db)):
     feedback = db.query(f).get(id)
-
     if not feedback:
         raise HTTPException(
             status_code=404,
@@ -684,7 +691,7 @@ def update_feedback_by_id(
         feed.rating = rating
 
         db.commit()
-        return {"success": "updated"}
+        return {"msg":"Feedback Updated Successfully"}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail="something went wrong")
