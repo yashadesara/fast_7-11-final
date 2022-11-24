@@ -242,17 +242,20 @@ def add_category(
             status_code=422, detail="category is already exists"
         )
 
-    # i = image.filename[-10:]
-    cat = c(name=name, image=i)
-    db.add(cat)
-    db.commit()
-    db.refresh(cat)
+    try:
+        # i = image.filename[-10:]
+        cat = c(name=name, image=i)
+        db.add(cat)
+        db.commit()
+        db.refresh(cat)
 
-    with open(f"static/{i}", "wb") as f:
-        shutil.copyfileobj(image.file, f)
+        with open(f"static/{i}", "wb") as f:
+            shutil.copyfileobj(image.file, f)
 
-    return {"msg": "Category Created Successfully"}
-
+        return {"msg": "Category Created Successfully"}
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="something went wrong")
 
 @app.delete("/category/{id}", status_code=status.HTTP_200_OK)
 def delete_category_by_id(id: int, db: Session = Depends(get_db), User=Depends(get_current_user)):
