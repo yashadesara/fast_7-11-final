@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 # SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/project"
 DATABASE_URL = "mysql+mysqlconnector://root@localhost/project"
+# DATABASE_URL = "sqlite:///./sql_app.db"
 
 # engine = create_engine(DATABASE_URL, connect_args={"ssl": False})
 engine = create_engine(DATABASE_URL)

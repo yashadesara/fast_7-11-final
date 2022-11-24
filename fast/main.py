@@ -42,6 +42,7 @@ app.add_middleware(
 )
 
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -697,10 +698,11 @@ def update_feedback_by_id(
         raise HTTPException(status_code=400, detail="something went wrong")
 
 
+
 @app.get("/get-count-all/", status_code=status.HTTP_200_OK)
 def get_count_all(db: Session = Depends(get_db)):
     category = db.query(c).all()
     item = db.query(i).all()
     user = db.query(u).all()
     feedback = db.query(f).all()
-    return {"Total category":len(category), "Total item": len(item), "Total users": len(user), "Total feedbacks": len(feedback)}
+    return {"categories":len(category), "items": len(item), "users": len(user), "feedbacks": len(feedback)}
