@@ -137,6 +137,7 @@ class category(BaseModel):
 
 class User(BaseModel):
     id: Optional[int]
+    username: Optional[str]
     email: Optional[str]
     password: Optional[str]
     feed: List[feedback] = []
